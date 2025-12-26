@@ -92,9 +92,9 @@ export function Hero({ videoSrc }: HeroProps) {
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
-            className="order-2 lg:order-1 flex justify-center lg:justify-start"
+            className="order-2 lg:order-1"
           >
-            <div className="relative group max-w-[320px]">
+            <div className="relative group">
               {/* Glow effect behind card */}
               <div className="absolute -inset-1 bg-gradient-to-r from-accent-500/20 via-cosmic-500/20 to-accent-500/20 rounded-2xl blur-xl opacity-50 group-hover:opacity-75 transition-opacity" />
 
@@ -103,85 +103,80 @@ export function Hero({ videoSrc }: HeroProps) {
                 padding="none"
                 className="relative overflow-hidden rounded-2xl border border-white/10"
               >
-                {/* Character Image */}
-                <div className="relative w-full">
-                  {character.image ? (
-                    <>
+                <div className="flex flex-col sm:flex-row">
+                  {/* Character Image */}
+                  <div className="relative w-full sm:w-40 md:w-48 flex-shrink-0 max-h-[280px] overflow-hidden">
+                    {character.image ? (
                       <Image
                         src={character.image}
                         alt={character.name}
-                        width={320}
-                        height={480}
-                        className="object-contain w-full h-auto mx-auto"
+                        width={192}
+                        height={280}
+                        className="object-cover object-top w-full h-full"
                         priority
                       />
-                      {/* Subtle gradient overlay at bottom for text readability */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent" />
-                    </>
-                  ) : (
-                    <>
-                      <div
-                        className={`absolute inset-0 ${
-                          character.color === "cosmic"
-                            ? "bg-gradient-to-br from-cosmic-600/40 via-cosmic-800/60 to-background"
-                            : character.color === "energy"
-                            ? "bg-gradient-to-br from-energy-600/40 via-energy-800/60 to-background"
-                            : "bg-gradient-to-br from-accent-600/40 via-accent-800/60 to-background"
-                        }`}
-                      />
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <span
-                          className={`text-[200px] font-display font-bold opacity-20 ${
+                    ) : (
+                      <div className="aspect-[2/3] relative">
+                        <div
+                          className={`absolute inset-0 ${
                             character.color === "cosmic"
-                              ? "text-cosmic-300"
+                              ? "bg-gradient-to-br from-cosmic-600/40 via-cosmic-800/60 to-background"
                               : character.color === "energy"
-                              ? "text-energy-300"
-                              : "text-accent-300"
+                              ? "bg-gradient-to-br from-energy-600/40 via-energy-800/60 to-background"
+                              : "bg-gradient-to-br from-accent-600/40 via-accent-800/60 to-background"
                           }`}
-                        >
-                          {character.name[0]}
-                        </span>
+                        />
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <span
+                            className={`text-8xl font-display font-bold opacity-20 ${
+                              character.color === "cosmic"
+                                ? "text-cosmic-300"
+                                : character.color === "energy"
+                                ? "text-energy-300"
+                                : "text-accent-300"
+                            }`}
+                          >
+                            {character.name[0]}
+                          </span>
+                        </div>
                       </div>
-                    </>
-                  )}
+                    )}
 
-                  {/* Status badge */}
-                  <div className="absolute top-4 left-4">
-                    <Badge variant={status.color} size="lg" className="backdrop-blur-sm bg-background/50">
-                      {status.pulse && (
-                        <span className="relative flex h-2 w-2">
-                          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-current opacity-75" />
-                          <span className="relative inline-flex rounded-full h-2 w-2 bg-current" />
-                        </span>
-                      )}
-                      <StatusIcon className="h-4 w-4" />
-                      {status.label}
-                    </Badge>
+                    {/* Status badge */}
+                    <div className="absolute top-3 left-3">
+                      <Badge variant={status.color} size="sm" className="backdrop-blur-sm bg-background/50">
+                        {status.pulse && (
+                          <span className="relative flex h-2 w-2">
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-current opacity-75" />
+                            <span className="relative inline-flex rounded-full h-2 w-2 bg-current" />
+                          </span>
+                        )}
+                        <StatusIcon className="h-3 w-3" />
+                        {status.label}
+                      </Badge>
+                    </div>
                   </div>
 
-                  {/* Character number */}
-                  <div className="absolute top-4 right-4">
-                    <span className="font-mono text-sm text-white/70 backdrop-blur-sm bg-background/30 px-2 py-1 rounded">
-                      #{character.number}
-                    </span>
-                  </div>
-
-                  {/* Character Info - overlaid at bottom */}
-                  <div className="absolute bottom-0 left-0 right-0 p-5">
-                    <div className="flex items-center justify-between mb-2">
-                      <h2 className="font-display text-2xl font-bold text-white drop-shadow-lg">
-                        {character.name}
-                      </h2>
-                      <span className="text-sm text-white/80 backdrop-blur-sm bg-background/30 px-2 py-1 rounded">
+                  {/* Character Info - side panel */}
+                  <div className="p-5 flex flex-col justify-center bg-background-secondary/50 backdrop-blur-sm flex-1">
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="font-mono text-xs text-text-tertiary">
+                        #{character.number}
+                      </span>
+                      <span className="text-xs text-text-tertiary">•</span>
+                      <span className="text-xs text-text-secondary">
                         {character.role}
                       </span>
                     </div>
-                    <p className="text-sm text-white/90 mb-3 drop-shadow">
+                    <h2 className="font-display text-2xl font-bold text-text-primary mb-2">
+                      {character.name}
+                    </h2>
+                    <p className="text-sm text-text-secondary mb-4 leading-relaxed">
                       {character.personality}
                     </p>
                     <div className="flex flex-wrap gap-2">
                       {character.traits.map((trait) => (
-                        <Badge key={trait} variant="outline" size="sm" className="backdrop-blur-sm bg-background/30 border-white/20 text-white">
+                        <Badge key={trait} variant="outline" size="sm">
                           {trait}
                         </Badge>
                       ))}

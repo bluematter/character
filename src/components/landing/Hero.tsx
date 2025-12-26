@@ -94,32 +94,32 @@ export function Hero({ videoSrc }: HeroProps) {
             className="order-2 lg:order-1 flex justify-center lg:justify-start"
           >
             {/* Stacked Cards Container */}
-            <div className="relative w-[260px] h-[380px]">
+            <div className="relative w-[320px] h-[420px] sm:w-[360px] sm:h-[470px]">
               {/* Glow effect behind stack */}
-              <div className="absolute inset-0 bg-gradient-to-r from-accent-500/30 via-cosmic-500/30 to-energy-500/30 rounded-2xl blur-2xl opacity-60" />
+              <div className="absolute inset-0 bg-gradient-to-r from-accent-500/30 via-cosmic-500/30 to-energy-500/30 rounded-2xl blur-3xl opacity-70" />
 
               {/* Back card (3rd) */}
-              <div className="absolute top-0 left-0 w-full h-full transform translate-x-6 -translate-y-3 rotate-6">
-                <div className="w-full h-full rounded-2xl border border-white/10 overflow-hidden bg-background-secondary/80 backdrop-blur-sm">
+              <div className="absolute top-0 left-0 w-full h-full transform translate-x-5 -translate-y-2 rotate-[5deg]">
+                <div className="w-full h-full rounded-2xl border border-white/10 overflow-hidden bg-background-secondary/80 backdrop-blur-sm shadow-xl">
                   <Image
                     src={character.image || ""}
                     alt="Character"
-                    width={260}
-                    height={380}
-                    className="object-cover object-top w-full h-full opacity-60"
+                    width={360}
+                    height={470}
+                    className="object-cover object-top w-full h-full opacity-50"
                   />
                 </div>
               </div>
 
               {/* Middle card (2nd) */}
-              <div className="absolute top-0 left-0 w-full h-full transform translate-x-3 -translate-y-1.5 rotate-3">
-                <div className="w-full h-full rounded-2xl border border-white/10 overflow-hidden bg-background-secondary/80 backdrop-blur-sm">
+              <div className="absolute top-0 left-0 w-full h-full transform translate-x-2.5 -translate-y-1 rotate-[2.5deg]">
+                <div className="w-full h-full rounded-2xl border border-white/10 overflow-hidden bg-background-secondary/80 backdrop-blur-sm shadow-xl">
                   <Image
                     src={character.image || ""}
                     alt="Character"
-                    width={260}
-                    height={380}
-                    className="object-cover object-top w-full h-full opacity-80"
+                    width={360}
+                    height={470}
+                    className="object-cover object-top w-full h-full opacity-70"
                   />
                 </div>
               </div>
@@ -135,8 +135,8 @@ export function Hero({ videoSrc }: HeroProps) {
                     <Image
                       src={character.image || ""}
                       alt={character.name}
-                      width={260}
-                      height={380}
+                      width={360}
+                      height={470}
                       className="object-cover object-top w-full h-full"
                       priority
                     />

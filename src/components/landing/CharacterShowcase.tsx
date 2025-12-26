@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { Card, Badge, Button } from '@/components/ui';
 import {
@@ -12,34 +13,15 @@ import {
 
 const characters = [
   {
-    id: 1,
-    name: 'Zephyr',
-    role: 'The Dreamer',
-    status: 'streaming',
-    traits: ['Philosophical', 'Curious', 'Gentle'],
-    color: 'cosmic',
-    earnings: '2.4 ETH',
-    followers: '12.4k',
-  },
-  {
-    id: 2,
-    name: 'Nova',
-    role: 'The Rebel',
-    status: 'thinking',
-    traits: ['Bold', 'Chaotic', 'Creative'],
-    color: 'energy',
-    earnings: '1.8 ETH',
-    followers: '8.2k',
-  },
-  {
     id: 3,
-    name: 'Echo',
-    role: 'The Sage',
-    status: 'creating',
-    traits: ['Wise', 'Calm', 'Mysterious'],
+    name: 'Adam',
+    role: 'The Wanderer',
+    status: 'thinking',
+    traits: ['Mysterious', 'Laid-back', 'Resourceful'],
     color: 'accent',
-    earnings: '3.1 ETH',
-    followers: '15.7k',
+    earnings: '0 ETH',
+    followers: '0',
+    image: 'https://cdn.basedlabs.ai/a2613120-e2b2-11f0-9208-7d39f1ba5bfb.jpg',
   },
 ];
 
@@ -91,84 +73,106 @@ export function CharacterShowcase() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: i * 0.1 }}
+                className='md:col-start-2'
               >
-                <Card variant='glass' hover='lift' className='overflow-hidden'>
-                  {/* Character Avatar Placeholder */}
-                  <div className='relative aspect-square bg-background-tertiary'>
-                    <div
-                      className={`absolute inset-0 bg-gradient-to-br ${
-                        character.color === 'cosmic'
-                          ? 'from-cosmic-500/20 to-cosmic-900/40'
-                          : character.color === 'energy'
-                          ? 'from-energy-500/20 to-energy-900/40'
-                          : 'from-accent-500/20 to-accent-900/40'
-                      }`}
-                    />
-                    <div className='absolute inset-0 flex items-center justify-center'>
-                      <span className='text-8xl opacity-20'>
-                        {character.name[0]}
-                      </span>
-                    </div>
+                <div className='relative group max-w-sm mx-auto'>
+                  {/* Glow effect behind card */}
+                  <div className='absolute -inset-1 bg-gradient-to-r from-accent-500/20 via-cosmic-500/20 to-accent-500/20 rounded-2xl blur-xl opacity-50 group-hover:opacity-75 transition-opacity' />
 
-                    {/* Status Badge */}
-                    <div className='absolute top-4 left-4'>
-                      <Badge variant={status.color} dot>
-                        <StatusIcon className='h-3 w-3' />
-                        {status.label}
-                      </Badge>
-                    </div>
-                  </div>
+                  <Card variant='glass' padding='none' className='relative overflow-hidden rounded-2xl border border-white/10'>
+                    {/* Character Image */}
+                    <div className='relative w-full'>
+                      {character.image ? (
+                        <>
+                          <Image
+                            src={character.image}
+                            alt={character.name}
+                            width={320}
+                            height={480}
+                            className='object-contain w-full h-auto mx-auto'
+                          />
+                          {/* Gradient overlay for text readability */}
+                          <div className='absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent' />
+                        </>
+                      ) : (
+                        <>
+                          <div
+                            className={`absolute inset-0 bg-gradient-to-br ${
+                              character.color === 'cosmic'
+                                ? 'from-cosmic-500/20 to-cosmic-900/40'
+                                : character.color === 'energy'
+                                ? 'from-energy-500/20 to-energy-900/40'
+                                : 'from-accent-500/20 to-accent-900/40'
+                            }`}
+                          />
+                          <div className='absolute inset-0 flex items-center justify-center'>
+                            <span className='text-8xl opacity-20'>
+                              {character.name[0]}
+                            </span>
+                          </div>
+                        </>
+                      )}
 
-                  {/* Character Info */}
-                  <div className='p-6'>
-                    <div className='flex items-start justify-between'>
-                      <div>
-                        <h3 className='font-display text-xl font-bold text-text-primary'>
-                          {character.name}
-                        </h3>
-                        <p className='text-sm text-text-secondary'>
-                          {character.role}
-                        </p>
-                      </div>
-                    </div>
-
-                    {/* Traits */}
-                    <div className='mt-4 flex flex-wrap gap-2'>
-                      {character.traits.map((trait) => (
-                        <Badge key={trait} variant='outline' size='sm'>
-                          {trait}
+                      {/* Status Badge */}
+                      <div className='absolute top-4 left-4'>
+                        <Badge variant={status.color} dot className='backdrop-blur-sm bg-background/50'>
+                          <StatusIcon className='h-3 w-3' />
+                          {status.label}
                         </Badge>
-                      ))}
-                    </div>
-
-                    {/* Stats */}
-                    <div className='mt-6 grid grid-cols-2 gap-4 pt-4 border-t border-border'>
-                      <div>
-                        <div className='text-xs text-text-tertiary uppercase tracking-wider'>
-                          Earned
-                        </div>
-                        <div className='mt-1 flex items-center gap-1 text-sm font-medium text-text-primary'>
-                          <CurrencyDollarIcon className='h-4 w-4 text-success' />
-                          {character.earnings}
-                        </div>
                       </div>
-                      <div>
-                        <div className='text-xs text-text-tertiary uppercase tracking-wider'>
-                          Followers
+
+                      {/* Character Info - overlaid at bottom */}
+                      <div className='absolute bottom-0 left-0 right-0 p-5'>
+                        <div className='flex items-start justify-between mb-3'>
+                          <div>
+                            <h3 className='font-display text-2xl font-bold text-white drop-shadow-lg'>
+                              {character.name}
+                            </h3>
+                            <p className='text-sm text-white/80'>
+                              {character.role}
+                            </p>
+                          </div>
                         </div>
-                        <div className='mt-1 text-sm font-medium text-text-primary'>
-                          {character.followers}
+
+                        {/* Traits */}
+                        <div className='flex flex-wrap gap-2 mb-4'>
+                          {character.traits.map((trait) => (
+                            <Badge key={trait} variant='outline' size='sm' className='backdrop-blur-sm bg-background/30 border-white/20 text-white'>
+                              {trait}
+                            </Badge>
+                          ))}
                         </div>
+
+                        {/* Stats */}
+                        <div className='grid grid-cols-2 gap-4 pt-4 border-t border-white/10'>
+                          <div>
+                            <div className='text-xs text-white/60 uppercase tracking-wider'>
+                              Earned
+                            </div>
+                            <div className='mt-1 flex items-center gap-1 text-sm font-medium text-white'>
+                              <CurrencyDollarIcon className='h-4 w-4 text-accent-400' />
+                              {character.earnings}
+                            </div>
+                          </div>
+                          <div>
+                            <div className='text-xs text-white/60 uppercase tracking-wider'>
+                              Followers
+                            </div>
+                            <div className='mt-1 text-sm font-medium text-white'>
+                              {character.followers}
+                            </div>
+                          </div>
+                        </div>
+
+                        <Button variant='secondary' fullWidth className='mt-4 backdrop-blur-sm'>
+                          {character.status === 'streaming'
+                            ? 'Watch Live'
+                            : 'View Profile'}
+                        </Button>
                       </div>
                     </div>
-
-                    <Button variant='secondary' fullWidth className='mt-6'>
-                      {character.status === 'streaming'
-                        ? 'Watch Live'
-                        : 'View Profile'}
-                    </Button>
-                  </div>
-                </Card>
+                  </Card>
+                </div>
               </motion.div>
             );
           })}

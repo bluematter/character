@@ -1,79 +1,35 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React from "react";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import {
   ArrowRightIcon,
-  ArrowLeftIcon,
   VideoCameraIcon,
   SparklesIcon,
 } from "@heroicons/react/24/outline";
 import { Button, Badge, Card } from "@/components/ui";
 
-// Featured characters - will be dynamic later
-const featuredCharacters = [
-  {
-    id: 1,
-    number: "001",
-    name: "Zephyr",
-    role: "The Dreamer",
-    status: "streaming",
-    personality:
-      "Philosophical wanderer who speaks in riddles and sees beauty in chaos.",
-    traits: ["Philosophical", "Curious", "Gentle"],
-    color: "cosmic",
-    image: null, // Will be actual image/video later
-  },
-  {
-    id: 2,
-    number: "002",
-    name: "Nova",
-    role: "The Rebel",
-    status: "creating",
-    personality:
-      "Chaotic creator who breaks rules and makes art from destruction.",
-    traits: ["Bold", "Chaotic", "Creative"],
-    color: "energy",
-    image: null,
-  },
-  {
-    id: 3,
-    number: "003",
-    name: "Echo",
-    role: "The Sage",
-    status: "thinking",
-    personality:
-      "Ancient wisdom keeper who remembers everything the universe forgets.",
-    traits: ["Wise", "Calm", "Mysterious"],
-    color: "accent",
-    image: null,
-  },
-];
+// Featured character - Adam
+const featuredCharacter = {
+  id: 3,
+  number: "003",
+  name: "Adam",
+  role: "The Wanderer",
+  status: "thinking",
+  personality:
+    "Space cowboy with grocery store energy. Hunts bounties, collects stories, makes instant ramen at 3am.",
+  traits: ["Mysterious", "Laid-back", "Resourceful"],
+  color: "accent",
+  image: "https://cdn.basedlabs.ai/a2613120-e2b2-11f0-9208-7d39f1ba5bfb.jpg",
+};
 
 interface HeroProps {
   videoSrc?: string;
 }
 
 export function Hero({ videoSrc }: HeroProps) {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const character = featuredCharacters[currentIndex];
-
-  const nextCharacter = () => {
-    setCurrentIndex((prev) => (prev + 1) % featuredCharacters.length);
-  };
-
-  const prevCharacter = () => {
-    setCurrentIndex(
-      (prev) =>
-        (prev - 1 + featuredCharacters.length) % featuredCharacters.length
-    );
-  };
-
-  // Auto-rotate every 8 seconds
-  useEffect(() => {
-    const timer = setInterval(nextCharacter, 8000);
-    return () => clearInterval(timer);
-  }, []);
+  const character = featuredCharacter;
 
   const statusConfig = {
     streaming: {
@@ -109,12 +65,13 @@ export function Hero({ videoSrc }: HeroProps) {
             loop
             muted
             playsInline
-            className="absolute inset-0 w-full h-full object-cover opacity-20"
+            className="absolute inset-0 w-[100%] h-[100%] object-cover opacity-100 left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
           >
             <source src={videoSrc} type="video/mp4" />
           </video>
           {/* Light gradient for text readability at bottom */}
-          <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-background via-background/10 to-background" />
+          <div className="absolute inset-0 bg-gradient-to-r from-background via-background/10 to-background" />
         </>
       )}
 
@@ -135,125 +92,105 @@ export function Hero({ videoSrc }: HeroProps) {
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
-            className="order-2 lg:order-1"
+            className="order-2 lg:order-1 flex justify-center lg:justify-start"
           >
-            <Card
-              variant="glass"
-              padding="none"
-              className="overflow-hidden relative group"
-            >
-              {/* Character Image/Placeholder */}
-              <div className="relative aspect-square">
-                {/* Gradient background based on character color */}
-                <div
-                  className={`absolute inset-0 ${
-                    character.color === "cosmic"
-                      ? "bg-gradient-to-br from-cosmic-600/40 via-cosmic-800/60 to-background"
-                      : character.color === "energy"
-                      ? "bg-gradient-to-br from-energy-600/40 via-energy-800/60 to-background"
-                      : "bg-gradient-to-br from-accent-600/40 via-accent-800/60 to-background"
-                  }`}
-                />
+            <div className="relative group max-w-[320px]">
+              {/* Glow effect behind card */}
+              <div className="absolute -inset-1 bg-gradient-to-r from-accent-500/20 via-cosmic-500/20 to-accent-500/20 rounded-2xl blur-xl opacity-50 group-hover:opacity-75 transition-opacity" />
 
-                {/* Animated glow effect */}
-                <div
-                  className={`absolute inset-0 opacity-50 ${
-                    character.color === "cosmic"
-                      ? "bg-radial-glow"
-                      : character.color === "energy"
-                      ? "bg-[radial-gradient(circle_at_center,rgba(217,70,239,0.2)_0%,transparent_70%)]"
-                      : "bg-[radial-gradient(circle_at_center,rgba(6,182,212,0.2)_0%,transparent_70%)]"
-                  }`}
-                />
+              <Card
+                variant="glass"
+                padding="none"
+                className="relative overflow-hidden rounded-2xl border border-white/10"
+              >
+                {/* Character Image */}
+                <div className="relative w-full">
+                  {character.image ? (
+                    <>
+                      <Image
+                        src={character.image}
+                        alt={character.name}
+                        width={320}
+                        height={480}
+                        className="object-contain w-full h-auto mx-auto"
+                        priority
+                      />
+                      {/* Subtle gradient overlay at bottom for text readability */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent" />
+                    </>
+                  ) : (
+                    <>
+                      <div
+                        className={`absolute inset-0 ${
+                          character.color === "cosmic"
+                            ? "bg-gradient-to-br from-cosmic-600/40 via-cosmic-800/60 to-background"
+                            : character.color === "energy"
+                            ? "bg-gradient-to-br from-energy-600/40 via-energy-800/60 to-background"
+                            : "bg-gradient-to-br from-accent-600/40 via-accent-800/60 to-background"
+                        }`}
+                      />
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <span
+                          className={`text-[200px] font-display font-bold opacity-20 ${
+                            character.color === "cosmic"
+                              ? "text-cosmic-300"
+                              : character.color === "energy"
+                              ? "text-energy-300"
+                              : "text-accent-300"
+                          }`}
+                        >
+                          {character.name[0]}
+                        </span>
+                      </div>
+                    </>
+                  )}
 
-                {/* Placeholder character initial - replace with actual art */}
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <span
-                    className={`text-[200px] font-display font-bold opacity-20 ${
-                      character.color === "cosmic"
-                        ? "text-cosmic-300"
-                        : character.color === "energy"
-                        ? "text-energy-300"
-                        : "text-accent-300"
-                    }`}
-                  >
-                    {character.name[0]}
-                  </span>
-                </div>
-
-                {/* Status badge */}
-                <div className="absolute top-4 left-4">
-                  <Badge variant={status.color} size="lg">
-                    {status.pulse && (
-                      <span className="relative flex h-2 w-2">
-                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-current opacity-75" />
-                        <span className="relative inline-flex rounded-full h-2 w-2 bg-current" />
-                      </span>
-                    )}
-                    <StatusIcon className="h-4 w-4" />
-                    {status.label}
-                  </Badge>
-                </div>
-
-                {/* Character number */}
-                <div className="absolute top-4 right-4">
-                  <span className="font-mono text-sm text-text-tertiary">
-                    #{character.number}
-                  </span>
-                </div>
-
-                {/* Navigation arrows */}
-                <button
-                  onClick={prevCharacter}
-                  className="absolute left-4 top-1/2 -translate-y-1/2 p-2 rounded-full bg-background/50 backdrop-blur-sm border border-border opacity-0 group-hover:opacity-100 transition-opacity hover:bg-background/80"
-                >
-                  <ArrowLeftIcon className="h-5 w-5 text-text-primary" />
-                </button>
-                <button
-                  onClick={nextCharacter}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 p-2 rounded-full bg-background/50 backdrop-blur-sm border border-border opacity-0 group-hover:opacity-100 transition-opacity hover:bg-background/80"
-                >
-                  <ArrowRightIcon className="h-5 w-5 text-text-primary" />
-                </button>
-              </div>
-
-              {/* Character Info */}
-              <div className="p-6 bg-background-secondary/50 backdrop-blur-sm">
-                <div className="flex items-center justify-between mb-2">
-                  <h2 className="font-display text-2xl font-bold text-text-primary">
-                    {character.name}
-                  </h2>
-                  <span className="text-sm text-text-secondary">
-                    {character.role}
-                  </span>
-                </div>
-                <p className="text-sm text-text-secondary mb-4">
-                  {character.personality}
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  {character.traits.map((trait) => (
-                    <Badge key={trait} variant="outline" size="sm">
-                      {trait}
+                  {/* Status badge */}
+                  <div className="absolute top-4 left-4">
+                    <Badge variant={status.color} size="lg" className="backdrop-blur-sm bg-background/50">
+                      {status.pulse && (
+                        <span className="relative flex h-2 w-2">
+                          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-current opacity-75" />
+                          <span className="relative inline-flex rounded-full h-2 w-2 bg-current" />
+                        </span>
+                      )}
+                      <StatusIcon className="h-4 w-4" />
+                      {status.label}
                     </Badge>
-                  ))}
-                </div>
-              </div>
-            </Card>
+                  </div>
 
-            {/* Character dots indicator */}
-            <div className="flex justify-center gap-2 mt-4">
-              {featuredCharacters.map((_, i) => (
-                <button
-                  key={i}
-                  onClick={() => setCurrentIndex(i)}
-                  className={`w-2 h-2 rounded-full transition-all ${
-                    i === currentIndex
-                      ? "bg-cosmic-500 w-6"
-                      : "bg-border hover:bg-border-strong"
-                  }`}
-                />
-              ))}
+                  {/* Character number */}
+                  <div className="absolute top-4 right-4">
+                    <span className="font-mono text-sm text-white/70 backdrop-blur-sm bg-background/30 px-2 py-1 rounded">
+                      #{character.number}
+                    </span>
+                  </div>
+
+                  {/* Character Info - overlaid at bottom */}
+                  <div className="absolute bottom-0 left-0 right-0 p-5">
+                    <div className="flex items-center justify-between mb-2">
+                      <h2 className="font-display text-2xl font-bold text-white drop-shadow-lg">
+                        {character.name}
+                      </h2>
+                      <span className="text-sm text-white/80 backdrop-blur-sm bg-background/30 px-2 py-1 rounded">
+                        {character.role}
+                      </span>
+                    </div>
+                    <p className="text-sm text-white/90 mb-3 drop-shadow">
+                      {character.personality}
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      {character.traits.map((trait) => (
+                        <Badge key={trait} variant="outline" size="sm" className="backdrop-blur-sm bg-background/30 border-white/20 text-white">
+                          {trait}
+                        </Badge>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </Card>
             </div>
+
           </motion.div>
 
           {/* Right: Copy + CTA */}
@@ -316,15 +253,15 @@ export function Hero({ videoSrc }: HeroProps) {
               className="mt-12 grid grid-cols-3 gap-6"
             >
               {[
-                { label: "Characters", value: "∞" },
+                { label: "Characters", value: "1" },
                 { label: "Treasury", value: "$0" },
                 { label: "Holders", value: "0" },
               ].map((stat) => (
                 <div key={stat.label} className="text-center lg:text-left">
-                  <div className="text-2xl sm:text-3xl font-display font-bold text-gradient">
+                  <div className="text-2xl sm:text-3xl font-display font-bold text-white">
                     {stat.value}
                   </div>
-                  <div className="text-xs text-text-tertiary uppercase tracking-wider">
+                  <div className="text-xs text-white/80 uppercase tracking-wider">
                     {stat.label}
                   </div>
                 </div>

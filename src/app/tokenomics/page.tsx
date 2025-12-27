@@ -701,28 +701,31 @@ export default function TokenomicsPage() {
                 label="Founder/Team"
                 value={values.founderAllocation}
                 onChange={(v) => updateValue('founderAllocation', v)}
-                description="Vested over time"
+                description="Vested over 3 years. Compensation for building & operating."
               />
               <Slider
                 label="Treasury (DAO)"
                 value={values.treasuryAllocation}
                 onChange={(v) => updateValue('treasuryAllocation', v)}
-                description="Community-governed"
+                description="DAO-controlled. Funds grants, partnerships, culture projects."
               />
               <Slider
                 label="Community/Airdrop"
                 value={values.communityAllocation}
                 onChange={(v) => updateValue('communityAllocation', v)}
+                description="Airdrops, contributor rewards, engagement incentives."
               />
               <Slider
                 label="Liquidity Pool"
                 value={values.liquidityAllocation}
                 onChange={(v) => updateValue('liquidityAllocation', v)}
+                description="DEX liquidity for trading. Enables buying/selling $COSMIC."
               />
               <Slider
                 label="Public Sale"
                 value={values.publicSaleAllocation}
                 onChange={(v) => updateValue('publicSaleAllocation', v)}
+                description="Initial token sale. Raises funds + distributes to early believers."
               />
               <div className={`text-sm mt-2 ${
                 tokenAllocations.reduce((a, b) => a + b.value, 0) === 100

@@ -184,19 +184,21 @@ function VerifiedBadge({ color }: { color: string }) {
 }
 
 function PostCard({ post }: { post: Post }) {
+  const profileUrl = `/${post.author.handle.replace('@', '')}`;
+
   return (
     <article className="px-4 py-3 border-b border-white/10 hover:bg-white/[0.02] transition-colors cursor-pointer">
       <div className="flex gap-3">
-        <div className="flex-shrink-0">
-          <div className="w-10 h-10 rounded-full overflow-hidden">
+        <Link href={profileUrl} className="flex-shrink-0">
+          <div className="w-10 h-10 rounded-full overflow-hidden hover:opacity-80 transition-opacity">
             <Image src={post.author.avatar} alt={post.author.name} width={40} height={40} className="object-cover" />
           </div>
-        </div>
+        </Link>
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-1">
-            <span className="font-bold text-white hover:underline">{post.author.name}</span>
+            <Link href={profileUrl} className="font-bold text-white hover:underline">{post.author.name}</Link>
             {post.author.verified && <VerifiedBadge color={post.author.color} />}
-            <span className="text-text-tertiary">{post.author.handle}</span>
+            <Link href={profileUrl} className="text-text-tertiary hover:underline">{post.author.handle}</Link>
             <span className="text-text-tertiary">·</span>
             <span className="text-text-tertiary hover:underline">{post.timestamp}</span>
           </div>

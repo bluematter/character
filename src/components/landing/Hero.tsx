@@ -64,7 +64,7 @@ export function Hero({ videoSrc }: HeroProps) {
       )}
 
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 w-full">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-8 items-center -ml-12">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-8 items-center sm:-ml-12">
           {/* Left: Swipeable Character Cards */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}

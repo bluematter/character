@@ -30,11 +30,20 @@ export const metadata: Metadata = {
     description:
       'A perpetual, on-chain, community-owned AI character studio. Build culture, own characters, shape the universe.',
     type: 'website',
+    images: [
+      {
+        url: 'https://media.basedlabs.ai/og-cosmic.png',
+        width: 1200,
+        height: 630,
+        alt: 'Cosmic Friends - AI-Native Character Civilization',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Cosmic Friends',
     description: 'The first crypto-native AI civilization',
+    images: ['https://media.basedlabs.ai/og-cosmic.png'],
   },
 };
 

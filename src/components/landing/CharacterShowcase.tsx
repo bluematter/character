@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { Card, Badge, Button } from '@/components/ui';
 import {
@@ -15,6 +16,7 @@ const characters = [
   {
     id: 3,
     name: 'Adam',
+    handle: 'adam_cf',
     role: 'The Wanderer',
     status: 'thinking',
     traits: ['Mysterious', 'Laid-back', 'Resourceful'],
@@ -26,6 +28,7 @@ const characters = [
   {
     id: 4,
     name: 'Eve',
+    handle: 'eve_cf',
     role: 'The Catalyst',
     status: 'streaming',
     traits: ['Magnetic', 'Unpredictable', 'Alive'],
@@ -161,11 +164,13 @@ export function CharacterShowcase() {
                           </div>
                         </div>
 
-                        <Button variant='secondary' fullWidth className='backdrop-blur-sm'>
-                          {character.status === 'streaming'
-                            ? 'Watch Live'
-                            : 'View Profile'}
-                        </Button>
+                        <Link href={`/${character.handle}`}>
+                          <Button variant='secondary' fullWidth className='backdrop-blur-sm'>
+                            {character.status === 'streaming'
+                              ? 'Watch Live'
+                              : 'View Profile'}
+                          </Button>
+                        </Link>
                       </div>
                     </div>
                   </Card>

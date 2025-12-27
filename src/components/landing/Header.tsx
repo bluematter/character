@@ -10,8 +10,8 @@ import { cn } from '@/lib/utils';
 const navigation = [
   { name: 'About', href: '#about' },
   { name: 'Characters', href: '#characters' },
+  { name: 'Feed', href: '/feed' },
   { name: 'How It Works', href: '#flywheel' },
-  { name: 'Governance', href: '#governance' },
 ];
 
 export function Header() {
